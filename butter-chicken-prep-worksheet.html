@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Butter Chicken — Preparing for Production</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#faf3e6;
+    --panel:#fffaf1;
+    --ink:#2b1d14;
+    --ink-soft:#5a4a3a;
+    --turmeric:#c9902f;
+    --turmeric-dark:#9c6f22;
+    --chili:#a8402e;
+    --leaf:#4b6a45;
+    --rule:#e3d6bd;
+    --shadow: 0 1px 0 rgba(43,29,20,0.06);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Karla', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px 80px;}
+
+  /* Banner */
+  .banner{
+    padding:56px 20px 40px;
+    text-align:left;
+    max-width:920px;
+    margin:0 auto;
+    border-bottom:1px solid var(--rule);
+  }
+  .banner .eyebrow{
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:0.02em;
+    margin:0 0 10px;
+  }
+  .banner .eyebrow b{color:var(--chili);}
+  .banner h1{
+    font-family:'Fraunces', serif;
+    font-optical-sizing:auto;
+    font-weight:600;
+    font-size:clamp(32px,5vw,48px);
+    line-height:1.08;
+    margin:0 0 14px;
+    max-width:14ch;
+  }
+  .banner p.sub{
+    font-size:17px;
+    color:var(--ink-soft);
+    max-width:56ch;
+    margin:0;
+  }
+
+  /* Progress rail */
+  .progress{
+    display:flex;
+    gap:6px;
+    margin-top:28px;
+  }
+  .progress .seg{
+    flex:1;
+    height:6px;
+    background:var(--rule);
+    border-radius:3px;
+    overflow:hidden;
+  }
+  .progress .seg i{
+    display:block;
+    height:100%;
+    width:0%;
+    background:var(--leaf);
+    transition:width .35s ease;
+  }
+  .progress-label{
+    font-size:13px;
+    color:var(--ink-soft);
+    margin-top:8px;
+  }
+
+  /* Steps */
+  .step{
+    display:flex;
+    gap:22px;
+    padding:44px 0;
+    border-bottom:1px solid var(--rule);
+    align-items:flex-start;
+  }
+  .step:last-of-type{border-bottom:none;}
+  .step-num{
+    flex:0 0 auto;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:var(--panel);
+    border:1.5px solid var(--turmeric);
+    color:var(--turmeric-dark);
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:17px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:all .25s ease;
+  }
+  .step-num.done{
+    background:var(--leaf);
+    border-color:var(--leaf);
+    color:#fff;
+  }
+  .step-body{flex:1; min-width:0;}
+  .step-kicker{
+    font-size:13px;
+    color:var(--turmeric-dark);
+    font-weight:600;
+    margin:0 0 4px;
+  }
+  .step h2{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:24px;
+    margin:0 0 10px;
+  }
+  .step p.help{
+    color:var(--ink-soft);
+    font-size:15.5px;
+    margin:0 0 20px;
+    max-width:62ch;
+  }
+
+  /* Scenario callout */
+  .scenario{
+    background:#f3ece0;
+    border-left:4px solid var(--chili);
+    border-radius:0 8px 8px 0;
+    padding:12px 16px;
+    margin:0 0 16px;
+  }
+  .scenario-label{
+    font-size:12.5px;
+    font-weight:700;
+    color:var(--chili);
+    margin:0 0 4px;
+  }
+  .scenario-text{
+    font-size:15px;
+    margin:0;
+    color:var(--ink);
+  }
+
+  /* Process options */
+  .options{display:flex; flex-direction:column; gap:10px; margin-bottom:22px;}
+  .option{
+    border:1.5px solid var(--rule);
+    background:var(--panel);
+    border-radius:10px;
+    padding:14px 16px;
+    cursor:pointer;
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .option:hover{border-color:var(--turmeric);}
+  .option input{margin-top:3px; accent-color:var(--chili);}
+  .option .ot{font-weight:600; font-size:15.5px;}
+  .option .od{font-size:14px; color:var(--ink-soft); margin-top:2px;}
+  .option.selected{border-color:var(--chili); background:#fdf4ee;}
+
+  label.field-label{
+    display:block;
+    font-weight:600;
+    font-size:14.5px;
+    margin:0 0 6px;
+    color:var(--ink);
+  }
+  textarea, input[type="text"]{
+    width:100%;
+    font-family:'Karla', sans-serif;
+    font-size:15.5px;
+    color:var(--ink);
+    background:var(--panel);
+    border:1.5px solid var(--rule);
+    border-radius:9px;
+    padding:11px 13px;
+    resize:vertical;
+    transition:border-color .15s ease;
+  }
+  textarea:focus, input[type="text"]:focus, .option input:focus-visible + div{
+    outline:none;
+    border-color:var(--turmeric-dark);
+  }
+  textarea{min-height:76px;}
+
+  /* mise en place tasks */
+  .mise-grid{display:flex; flex-direction:column; gap:12px;}
+  .mise-row{display:flex; align-items:center; gap:10px;}
+  .mise-tag{
+    flex:0 0 auto;
+    width:26px; height:26px;
+    border-radius:6px;
+    background:var(--turmeric);
+    color:#fff;
+    font-size:12.5px;
+    font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Karla', sans-serif;
+  }
+
+  /* food safety practices */
+  .safety-block{
+    border:1.5px solid var(--rule);
+    background:var(--panel);
+    border-radius:10px;
+    padding:16px;
+    margin-bottom:14px;
+  }
+  .safety-block .sb-head{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:10px;
+  }
+  .safety-block .sb-head .sb-num{
+    color:var(--chili);
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:15px;
+  }
+  .safety-block input[type="text"]{margin-bottom:10px;}
+
+  /* summary section */
+  .summary-wrap{
+    margin-top:20px;
+    padding:32px 0 0;
+  }
+  .summary-cta{
+    background:var(--ink);
+    color:var(--cream);
+    border-radius:14px;
+    padding:32px;
+    text-align:left;
+  }
+  .summary-cta h2{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:24px;
+    margin:0 0 8px;
+    color:#fff;
+  }
+  .summary-cta p{
+    color:#d8cdb9;
+    font-size:15px;
+    margin:0 0 20px;
+    max-width:56ch;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--turmeric);
+    color:#241a10;
+    font-family:'Karla', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    border:none;
+    border-radius:9px;
+    padding:12px 20px;
+    cursor:pointer;
+    transition:background .15s ease, transform .1s ease;
+  }
+  .btn:hover{background:#dba53c;}
+  .btn:active{transform:translateY(1px);}
+  .btn.secondary{
+    background:transparent;
+    border:1.5px solid #6b5c46;
+    color:var(--cream);
+  }
+  .btn.secondary:hover{background:rgba(255,255,255,0.06);}
+  .btn-row{display:flex; gap:10px; flex-wrap:wrap;}
+
+  .output-box{
+    display:none;
+    margin-top:22px;
+    background:#fffdf8;
+    color:var(--ink);
+    border-radius:10px;
+    padding:20px;
+  }
+  .output-box.show{display:block;}
+  .output-box pre{
+    white-space:pre-wrap;
+    font-family:'Karla', sans-serif;
+    font-size:14.5px;
+    line-height:1.6;
+    margin:0;
+  }
+  .copy-note{
+    font-size:13px;
+    color:var(--leaf);
+    margin-top:10px;
+    font-weight:600;
+    min-height:16px;
+  }
+
+  .incomplete-note{
+    font-size:13.5px;
+    color:var(--chili);
+    margin-top:14px;
+    font-weight:600;
+  }
+
+  @media (max-width: 640px){
+    .step{gap:14px;}
+    .step-num{width:34px; height:34px; font-size:15px;}
+    .banner{padding:40px 18px 30px;}
+    .summary-cta{padding:24px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="banner">
+  <p class="eyebrow">NUTR-42 &nbsp;·&nbsp; <b>Pre-Production Worksheet</b></p>
+  <h1>Butter Chicken: Preparing for Production</h1>
+  <p class="sub">Work through the recipe before you step into the lab. Think through the process, your mise en place, food safety, and workflow — then generate a submission you can paste into Canvas.</p>
+  <div class="progress">
+    <div class="seg" id="seg1"><i></i></div>
+    <div class="seg" id="seg2"><i></i></div>
+    <div class="seg" id="seg3"><i></i></div>
+    <div class="seg" id="seg4"><i></i></div>
+  </div>
+  <p class="progress-label" id="progressLabel">0 of 4 sections complete</p>
+</div>
+
+<div class="wrap">
+
+  <!-- STEP 1 -->
+  <div class="step">
+    <div class="step-num" id="num1">1</div>
+    <div class="step-body">
+      <p class="step-kicker">Follow the food</p>
+      <h2>Which production process will you use?</h2>
+      <div class="scenario">
+        <p class="scenario-label">Scenario</p>
+        <p class="scenario-text">The Butter Chicken will be prepared <strong>one day before service</strong>, in the campus cafeteria.</p>
+      </div>
+      <p class="help">Based on this timeline, choose the production process that best fits — then explain your reasoning.</p>
+
+      <div class="options" id="processOptions">
+        <label class="option" data-opt="1">
+          <input type="radio" name="process" value="Prepare → Hold → Serve" />
+          <div>
+            <div class="ot">Process 1</div>
+            <div class="od">Prepare → Hold → Serve</div>
+          </div>
+        </label>
+        <label class="option" data-opt="2">
+          <input type="radio" name="process" value="Prepare → Cook → Hold → Serve" />
+          <div>
+            <div class="ot">Process 2</div>
+            <div class="od">Prepare → Cook → Hold → Serve</div>
+          </div>
+        </label>
+        <label class="option" data-opt="3">
+          <input type="radio" name="process" value="Prepare → Cook → Cool → Reheat → Hold → Serve" />
+          <div>
+            <div class="ot">Process 3</div>
+            <div class="od">Prepare → Cook → Cool → Reheat → Hold → Serve</div>
+          </div>
+        </label>
+      </div>
+
+      <label class="field-label" for="processWhy">Why is this process appropriate for this recipe?</label>
+      <textarea id="processWhy" placeholder="Explain your reasoning..."></textarea>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step">
+    <div class="step-num" id="num2">2</div>
+    <div class="step-body">
+      <p class="step-kicker">Plan ahead</p>
+      <h2>Plan your mise en place</h2>
+      <p class="help">Identify 4 mise en place tasks you would complete before or during production — e.g. measuring ingredients, cutting the chicken, chopping the onion, preparing garlic and ginger, measuring spices, gathering equipment.</p>
+
+      <div class="mise-grid">
+        <div class="mise-row">
+          <div class="mise-tag">1</div>
+          <input type="text" class="mise-input" placeholder="e.g. Measure all spices into small bowls" />
+        </div>
+        <div class="mise-row">
+          <div class="mise-tag">2</div>
+          <input type="text" class="mise-input" placeholder="Mise en place task 2" />
+        </div>
+        <div class="mise-row">
+          <div class="mise-tag">3</div>
+          <input type="text" class="mise-input" placeholder="Mise en place task 3" />
+        </div>
+        <div class="mise-row">
+          <div class="mise-tag">4</div>
+          <input type="text" class="mise-input" placeholder="Mise en place task 4" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step">
+    <div class="step-num" id="num3">3</div>
+    <div class="step-body">
+      <p class="step-kicker">Stay safe</p>
+      <h2>Think about food safety</h2>
+      <p class="help">Identify 3 food safety practices that matter for this recipe. For each, briefly explain what you'll do and why it matters — think about raw chicken, cross-contamination, handwashing, refrigeration, cooking temperature, and cleaning &amp; sanitizing.</p>
+
+      <div id="safetyBlocks">
+        <div class="safety-block">
+          <div class="sb-head"><span class="sb-num">Practice 1</span></div>
+          <input type="text" class="safety-what" placeholder="What will you do? (e.g. cook chicken to 165°F)" />
+          <textarea class="safety-why" placeholder="Why does it matter?"></textarea>
+        </div>
+        <div class="safety-block">
+          <div class="sb-head"><span class="sb-num">Practice 2</span></div>
+          <input type="text" class="safety-what" placeholder="What will you do?" />
+          <textarea class="safety-why" placeholder="Why does it matter?"></textarea>
+        </div>
+        <div class="safety-block">
+          <div class="sb-head"><span class="sb-num">Practice 3</span></div>
+          <input type="text" class="safety-what" placeholder="What will you do?" />
+          <textarea class="safety-why" placeholder="Why does it matter?"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step">
+    <div class="step-num" id="num4">4</div>
+    <div class="step-body">
+      <p class="step-kicker">Work smart</p>
+      <h2>Think through the workflow</h2>
+      <p class="help">Look at the recipe steps and think about how you'll organize your work.</p>
+
+      <label class="field-label" for="workflowWhat">What is one thing you can do before or during production to help the process run smoothly and efficiently?</label>
+      <textarea id="workflowWhat" placeholder="Describe the one thing..." style="margin-bottom:16px;"></textarea>
+
+      <label class="field-label" for="workflowWhy">Briefly explain how it will help.</label>
+      <textarea id="workflowWhy" placeholder="Explain the benefit..."></textarea>
+    </div>
+  </div>
+
+  <div class="summary-wrap">
+    <div class="summary-cta">
+      <h2>Ready to submit?</h2>
+      <p>Generate a clean, formatted summary of your responses, then copy it into your Canvas submission for this assignment.</p>
+      <div class="btn-row">
+        <button class="btn" id="generateBtn">Generate submission text</button>
+        <button class="btn secondary" id="printBtn">Print / save as PDF</button>
+      </div>
+      <div class="incomplete-note" id="incompleteNote" style="display:none;"></div>
+      <div class="output-box" id="outputBox">
+        <pre id="outputText"></pre>
+        <div class="btn-row" style="margin-top:16px;">
+          <button class="btn" id="copyBtn">Copy to clipboard</button>
+        </div>
+        <div class="copy-note" id="copyNote"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const state = {};
+
+  function $all(sel){ return Array.from(document.querySelectorAll(sel)); }
+
+  function updateOptionStyles(){
+    $all('#processOptions .option').forEach(opt=>{
+      const input = opt.querySelector('input');
+      opt.classList.toggle('selected', input.checked);
+    });
+  }
+
+  function isStepComplete(n){
+    if(n===1){
+      const process = document.querySelector('input[name="process"]:checked');
+      const why = document.getElementById('processWhy').value.trim();
+      return !!process && why.length>0;
+    }
+    if(n===2){
+      return $all('.mise-input').every(i=>i.value.trim().length>0);
+    }
+    if(n===3){
+      return $all('.safety-block').every(b=>{
+        return b.querySelector('.safety-what').value.trim().length>0 &&
+               b.querySelector('.safety-why').value.trim().length>0;
+      });
+    }
+    if(n===4){
+      return document.getElementById('workflowWhat').value.trim().length>0 &&
+             document.getElementById('workflowWhy').value.trim().length>0;
+    }
+    return false;
+  }
+
+  function refreshProgress(){
+    let complete = 0;
+    for(let n=1; n<=4; n++){
+      const done = isStepComplete(n);
+      if(done) complete++;
+      document.getElementById('num'+n).classList.toggle('done', done);
+      document.getElementById('seg'+n).querySelector('i').style.width = done ? '100%' : '0%';
+    }
+    document.getElementById('progressLabel').textContent = complete + ' of 4 sections complete';
+  }
+
+  document.addEventListener('input', ()=>{ updateOptionStyles(); refreshProgress(); });
+  document.addEventListener('change', ()=>{ updateOptionStyles(); refreshProgress(); });
+
+  function buildSummary(){
+    const process = document.querySelector('input[name="process"]:checked');
+    const processLabel = process ? process.closest('.option').querySelector('.ot').textContent + ' — ' + process.value : '(not selected)';
+    const processWhy = document.getElementById('processWhy').value.trim() || '(no explanation provided)';
+
+    const miseItems = $all('.mise-input').map((i,idx)=> (idx+1) + '. ' + (i.value.trim() || '(blank)'));
+
+    const safetyItems = $all('.safety-block').map((b,idx)=>{
+      const what = b.querySelector('.safety-what').value.trim() || '(blank)';
+      const why = b.querySelector('.safety-why').value.trim() || '(blank)';
+      return (idx+1) + '. ' + what + '\n   Why it matters: ' + why;
+    });
+
+    const workflowWhat = document.getElementById('workflowWhat').value.trim() || '(blank)';
+    const workflowWhy = document.getElementById('workflowWhy').value.trim() || '(blank)';
+
+    return [
+      'BUTTER CHICKEN — PREPARING FOR PRODUCTION',
+      '',
+      '1. PRODUCTION PROCESS',
+      'Scenario: Prepared one day before service, in the campus cafeteria.',
+      processLabel,
+      'Why: ' + processWhy,
+      '',
+      '2. MISE EN PLACE',
+      miseItems.join('\n'),
+      '',
+      '3. FOOD SAFETY PRACTICES',
+      safetyItems.join('\n'),
+      '',
+      '4. WORKFLOW',
+      'What: ' + workflowWhat,
+      'How it helps: ' + workflowWhy
+    ].join('\n');
+  }
+
+  document.getElementById('generateBtn').addEventListener('click', ()=>{
+    const allDone = [1,2,3,4].every(isStepComplete);
+    const note = document.getElementById('incompleteNote');
+    if(!allDone){
+      note.style.display = 'block';
+      note.textContent = 'Heads up — some sections are still incomplete. You can still generate text, but review it before submitting.';
+    } else {
+      note.style.display = 'none';
+    }
+    document.getElementById('outputText').textContent = buildSummary();
+    document.getElementById('outputBox').classList.add('show');
+    document.getElementById('copyNote').textContent = '';
+  });
+
+  document.getElementById('copyBtn').addEventListener('click', async ()=>{
+    const text = document.getElementById('outputText').textContent;
+    const note = document.getElementById('copyNote');
+    try{
+      await navigator.clipboard.writeText(text);
+      note.textContent = 'Copied — paste it into your Canvas submission.';
+    }catch(e){
+      note.textContent = 'Could not copy automatically — select the text above and copy it manually.';
+    }
+  });
+
+  document.getElementById('printBtn').addEventListener('click', ()=>{
+    window.print();
+  });
+
+  refreshProgress();
+</script>
+
+</body>
+</html>
